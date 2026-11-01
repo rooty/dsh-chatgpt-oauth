@@ -61,4 +61,7 @@ No compatibility exemption is used. A future DSH upgrade may refuse this version
 - Compatibility is pinned to DSH **0.2.1-rc.5**; other versions are not verified.
 - If another page is already signing in when this card opens, the buttons can remain disabled after that attempt finishes. Reopen Settings → Models or refresh the page to reload status.
 - Automated tests do not establish subscription entitlement or actual model access. Verify those with a successful model request after signing in.
-- No open-source license has been selected yet.
+
+## License
+
+[MIT](LICENSE) © 2026 Vitalii Mikhnevych.

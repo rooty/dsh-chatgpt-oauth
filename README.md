@@ -1,5 +1,7 @@
 # Local ChatGPT OAuth for DeepSeek Harness
 
+[English](README.md) | [Русский](README.ru.md) | [Українська](README.uk.md)
+
 A minimal, user-owned plugin for **DSH 0.2.2-rc.1** (plugin **0.1.1**). It adds a ChatGPT sign-in card to the bottom of **Settings → Models** and invokes the installed `llm-pi-ai/openai-codex` authorization flow. It does not implement its own OAuth protocol, run Codex CLI, replace DSH's provider, or configure search/image generation.
 
 ## Use

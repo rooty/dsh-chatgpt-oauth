@@ -1,6 +1,6 @@
 # Local ChatGPT OAuth for DeepSeek Harness
 
-A minimal, user-owned plugin for **DSH 0.2.1-rc.5**. It adds a ChatGPT sign-in card to the bottom of **Settings → Models** and invokes the installed `llm-pi-ai/openai-codex` authorization flow. It does not implement its own OAuth protocol, run Codex CLI, replace DSH's provider, or configure search/image generation.
+A minimal, user-owned plugin for **DSH 0.2.2-rc.1** (plugin **0.1.1**). It adds a ChatGPT sign-in card to the bottom of **Settings → Models** and invokes the installed `llm-pi-ai/openai-codex` authorization flow. It does not implement its own OAuth protocol, run Codex CLI, replace DSH's provider, or configure search/image generation.
 
 ## Use
 
@@ -26,19 +26,17 @@ The saved-status indicator means a record exists in DSH's credential store; it d
 
 ## Verification
 
-Run `npm run check` with Node.js 22 or newer from this directory. Tests use synthetic credentials and a mocked native authorization flow; they do not contact OpenAI or consume quota. Installed GUI and real-account verification are separate checks.
+Run `npm run check` with Node.js 22 or newer from this directory. The 32 deterministic tests use synthetic credentials and mocked native authorization; they do not contact OpenAI or consume quota. Existing client tests are isolated hook fixtures, not real-browser/DOM verification.
 
-An optional macOS integration smoke test exercises the actual adapter bundled in Desktop 0.2.1-rc.5, up to method selection, authorization URL generation and the callback prompt. It uses an in-memory credential stub and does not exchange tokens or open the browser. It may briefly bind the native loopback callback port and then cancels:
+Run `npm run test:native` with the bundled Desktop Electron runtime. It uses the **actual installed** AuthorizationService, pi-ai adapter and Connection carrier. The authorization test cancels at the browser/device method-selection prompt **without answering**: no browser, callback listener, device request or token exchange starts. The Connection test verifies Desktop-shaped and same-origin Web owner admission plus hostile Host/Origin, anonymous and non-owner rejection; authentication is synthetic and no sockets are created. Network fetch is disabled in both tests. No actual credential store is instantiated or inspected.
 
-```sh
-ELECTRON_RUN_AS_NODE=1 "/Applications/DeepSeek Harness.app/Contents/MacOS/DeepSeek Harness" ./tests/native-installed.smoke.mjs
-```
+For 0.1.1 the native contracts and Models footer were checked against installed 0.2.2-rc.1. The Host and browser implementation files are unchanged; the exact engine declaration is updated only after these checks. No broad future-version range or compatibility exemption is granted. The previous smoke that entered the browser OAuth branch has been replaced by the strictly offline selection/cancellation test. Installed GUI, token validity and real-account/model access remain separate owner checks; an update must not reauthorize or log out the user.
 
 This is a local third-party plugin, not an official OpenAI or DeepSeek integration. Never commit credential stores, OAuth replies, redirect URLs, tokens, or personal screenshots.
 
 ## Install / remove
 
-Clone the repository into a permanent location (the installed plugin links to this directory). Use the **bundled Desktop CLI matching the application**, not an older npm `dsh` command. Tested with macOS Desktop **0.2.1-rc.5**:
+Clone the repository into a permanent location (the installed plugin links to this directory). Use the **bundled Desktop CLI matching the application**, not an older npm `dsh` command. Tested with macOS Desktop **0.2.2-rc.1**:
 
 ```sh
 git clone https://github.com/rooty/dsh-chatgpt-oauth.git
@@ -58,7 +56,7 @@ No compatibility exemption is used. A future DSH upgrade may refuse this version
 
 ## Known limitations
 
-- Compatibility is pinned to DSH **0.2.1-rc.5**; other versions are not verified.
+- Compatibility is pinned to DSH **0.2.2-rc.1**; other versions are not verified.
 - If another page is already signing in when this card opens, the buttons can remain disabled after that attempt finishes. Reopen Settings → Models or refresh the page to reload status.
 - Automated tests do not establish subscription entitlement or actual model access. Verify those with a successful model request after signing in.
 
